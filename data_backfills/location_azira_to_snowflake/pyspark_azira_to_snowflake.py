@@ -9,7 +9,7 @@ from tqdm import tqdm
 import os
 
 # Parameters
-MARKETS = ['9D37-NEW-3259','CCC2-BOS-25AA']
+MARKETS = ['001F-COL-0CA2','9D37-NEW-3259','CCC2-BOS-25AA']
 PREFIX = "2024/01/01/"
 
 # MARKETS = None
@@ -170,9 +170,9 @@ def main():
                 for market in tqdm(markets):  # Loop through markets
                     formatted_day = str(day).zfill(2)
                     formatted_month = str(month).zfill(2)
-                    current_prefix = f"2024/{formatted_month}/{formatted_day}/"
-                    files = [f"s3a://near-market-data/USA/{market}/{current_prefix}part-{str(i).zfill(5)}.gz" for i in range(50)]
-                    output = f"s3a://azira-backfill-snowflake/USA/{market}/{current_prefix.replace('/', '_')}"
+                    current_prefix = f"2024/{formatted_month}/{formatted_day}"
+                    files = [f"s3a://near-market-data/USA/{market}/2024/{current_prefix}/part-{str(i).zfill(5)}.gz" for i in range(50)]
+                    output = f"s3a://azira-backfill-snowflake/USA/2024/{market}_{current_prefix.replace('/', '_')}"
                     success = transform_and_save_files(files, output)
         if success:
             print(f"Successfully processed and saved data to azira-backfill-snowflake")
